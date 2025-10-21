@@ -1,8 +1,11 @@
 package com.yugiohreview.api.controllers;
 
+import com.yugiohreview.api.dto.YugiohDto;
 import com.yugiohreview.api.models.YuGiOh;
 import java.util.ArrayList;
 
+import com.yugiohreview.api.service.YugiohService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,10 +17,18 @@ import java.util.List;
 @RequestMapping("/api/")
 public class YugiohController {
 
+    private YugiohService yugiohService;
+
+    @Autowired
+    public YugiohController(YugiohService yugiohService) {
+        this.yugiohService = yugiohService;
+    }
+
     @GetMapping("yugioh")
     public ResponseEntity<List<YuGiOh>> getYugiohs(){
         List<YuGiOh> yugiohs = new ArrayList<>();
 
+        // Later should be removed
         yugiohs.add(new YuGiOh(1,"Blue-Eyes White Dragon","Light"));
         yugiohs.add(new YuGiOh(2,"Dark Magician","Dark"));
         yugiohs.add(new YuGiOh(3,"Red-Eyes Black Dragon","Dark"));
@@ -35,11 +46,13 @@ public class YugiohController {
 
     @PostMapping("yugioh/create")
     @ResponseStatus(HttpStatus.CREATED)
-   public ResponseEntity<YuGiOh> createYuGiOh(@RequestBody YuGiOh yugioh){
-        System.out.println(yugioh.getName());
-        System.out.println(yugioh.getType());
+   public ResponseEntity<YugiohDto> createYuGiOh(@RequestBody YugiohDto yugiohDto){
 
-        return new ResponseEntity<>(yugioh,HttpStatus.CREATED);
+        return new ResponseEntity<>(yugiohService.createYugioh(yugiohDto),HttpStatus.CREATED);
+
+//        System.out.println(yugioh.getName());
+//        System.out.println(yugioh.getType());
+//        return new ResponseEntity<>(yugioh,HttpStatus.CREATED);
     }
 
     @PutMapping("yugioh/{id}/update")
