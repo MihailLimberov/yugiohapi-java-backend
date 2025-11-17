@@ -25,8 +25,8 @@ public class YugiohController {
     }
 
     @GetMapping("yugioh")
-    public ResponseEntity<List<YuGiOh>> getYugiohs(){
-        List<YuGiOh> yugiohs = new ArrayList<>();
+    public ResponseEntity<List<YugiohDto>> getYugiohs(){
+        /*List<YuGiOh> yugiohs = new ArrayList<>();
 
         // Later should be removed
         yugiohs.add(new YuGiOh(1,"Blue-Eyes White Dragon","Light"));
@@ -35,8 +35,9 @@ public class YugiohController {
         yugiohs.add(new YuGiOh(4,"Glow-Up Bulb","Earth"));
         yugiohs.add(new YuGiOh(5,"Toadally Awesome","Water"));
 
-        return ResponseEntity.ok(yugiohs);
+        return ResponseEntity.ok(yugiohs);*/
 
+        return new ResponseEntity<>(yugiohService.getAllYugioh(), HttpStatus.OK);
     }
 
     @GetMapping("yugioh/{id}")
