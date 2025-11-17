@@ -1,6 +1,7 @@
 package com.yugiohreview.api.service.impl;
 
 import com.yugiohreview.api.dto.YugiohDto;
+import com.yugiohreview.api.exceptions.YugiohNotFoundException;
 import com.yugiohreview.api.models.YuGiOh;
 import com.yugiohreview.api.repository.YugiohRepository;
 import com.yugiohreview.api.service.YugiohService;
@@ -37,6 +38,7 @@ public class YugiohServiceImpl implements YugiohService {
 
     @Override
     public List<YugiohDto> getAllYugioh() {
+        //YuGiOh yugiohTest = yugiohRepository.findById(333333).orElseThrow(() -> new YugiohNotFoundException("Yugioh card could not be found by id"));
         List<YuGiOh> yugioh = yugiohRepository.findAll();
         return yugioh.stream().map(ygh -> mapToDto(ygh)).collect(Collectors.toList());
     }
