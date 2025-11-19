@@ -9,4 +9,5 @@ public interface YugiohService {
     List<YugiohDto> getAllYugioh();
     YugiohDto getYugiohById(int id);
     YugiohDto updateYugioh (YugiohDto yugiohDto, int id);
+    void deleteYugiohId (int id);
 }

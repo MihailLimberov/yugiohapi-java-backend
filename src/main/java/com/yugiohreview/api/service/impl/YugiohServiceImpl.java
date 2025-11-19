@@ -60,6 +60,12 @@ public class YugiohServiceImpl implements YugiohService {
         return mapToDto(updatedYugioh);
     }
 
+    @Override
+    public void deleteYugiohId(int id) {
+        YuGiOh yugioh = yugiohRepository.findById(id).orElseThrow(() -> new YugiohNotFoundException("YuGiOh card could not be deleted!"));
+        yugiohRepository.delete(yugioh);
+    }
+
     private YugiohDto mapToDto(YuGiOh yugioh) {
         YugiohDto yugiohDto = new YugiohDto();
         yugiohDto.setId(yugioh.getId());

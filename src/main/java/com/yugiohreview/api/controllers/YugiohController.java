@@ -70,8 +70,11 @@ public class YugiohController {
 
     @DeleteMapping("yugioh/{id}/delete")
     public ResponseEntity<String> deleteYuGiOh(@PathVariable("id") int yugiohId){
-        System.out.println(yugiohId);
+        /*System.out.println(yugiohId);
 
-        return ResponseEntity.ok("YuGiOh card deleted successfully.");
+        return ResponseEntity.ok("YuGiOh card deleted successfully.");*/
+
+        yugiohService.deleteYugiohId(yugiohId);
+        return new ResponseEntity<>("YuGiOh card deleted!", HttpStatus.OK);
     }
 }
