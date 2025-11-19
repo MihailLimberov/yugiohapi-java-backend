@@ -41,8 +41,9 @@ public class YugiohController {
     }
 
     @GetMapping("yugioh/{id}")
-    public YuGiOh yugiohDetail(@PathVariable int id){
-        return new YuGiOh(id,"Dark Magician","Dark");
+    public /*YuGiOh*/ ResponseEntity<YugiohDto> yugiohDetail(@PathVariable int id) {
+        //return new YuGiOh(id,"Dark Magician","Dark");
+        return ResponseEntity.ok(yugiohService.getYugiohById(id));
     }
 
     @PostMapping("yugioh/create")
@@ -57,11 +58,14 @@ public class YugiohController {
     }
 
     @PutMapping("yugioh/{id}/update")
-    public ResponseEntity<YuGiOh> updateYuGiOh(@RequestBody YuGiOh yugioh, @PathVariable("id") int yugiohId){
-        System.out.println(yugioh.getName());
+    public ResponseEntity</*YuGiOh*/ YugiohDto> updateYuGiOh(@RequestBody /*YuGiOh yugioh*/ YugiohDto yugiohDto, @PathVariable("id") int yugiohId){
+        /*System.out.println(yugioh.getName());
         System.out.println(yugioh.getType());
 
-        return ResponseEntity.ok(yugioh);
+        return ResponseEntity.ok(yugioh);*/
+
+        YugiohDto response = yugiohService.updateYugioh(yugiohDto, yugiohId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("yugioh/{id}/delete")

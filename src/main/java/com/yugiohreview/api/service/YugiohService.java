@@ -7,4 +7,6 @@ import java.util.List;
 public interface YugiohService {
     YugiohDto  createYugioh(YugiohDto yugiohDto);
     List<YugiohDto> getAllYugioh();
+    YugiohDto getYugiohById(int id);
+    YugiohDto updateYugioh (YugiohDto yugiohDto, int id);
 }
