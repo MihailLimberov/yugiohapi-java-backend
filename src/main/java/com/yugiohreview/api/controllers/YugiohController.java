@@ -1,6 +1,7 @@
 package com.yugiohreview.api.controllers;
 
 import com.yugiohreview.api.dto.YugiohDto;
+import com.yugiohreview.api.dto.YugiohResponce;
 import com.yugiohreview.api.models.YuGiOh;
 import java.util.ArrayList;
 
@@ -25,7 +26,10 @@ public class YugiohController {
     }
 
     @GetMapping("yugioh")
-    public ResponseEntity<List<YugiohDto>> getYugiohs(){
+    public ResponseEntity<YugiohResponce> getYugiohs(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
         /*List<YuGiOh> yugiohs = new ArrayList<>();
 
         // Later should be removed
@@ -37,7 +41,7 @@ public class YugiohController {
 
         return ResponseEntity.ok(yugiohs);*/
 
-        return new ResponseEntity<>(yugiohService.getAllYugioh(), HttpStatus.OK);
+        return new ResponseEntity<>(yugiohService.getAllYugioh(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("yugioh/{id}")
