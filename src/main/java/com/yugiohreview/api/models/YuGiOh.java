@@ -17,6 +17,7 @@ public class YuGiOh {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     private String name;
+    
     private String type;
 
     @OneToMany(mappedBy = "yugioh", cascade = CascadeType.ALL, orphanRemoval = true)

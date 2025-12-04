@@ -11,4 +11,5 @@ public interface YugiohService {
     YugiohDto getYugiohById(int id);
     YugiohDto updateYugioh (YugiohDto yugiohDto, int id);
     void deleteYugiohId (int id);
+    
 }
