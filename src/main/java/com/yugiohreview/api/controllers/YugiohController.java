@@ -1,6 +1,7 @@
 package com.yugiohreview.api.controllers;
 
 import com.yugiohreview.api.dto.YugiohDto;
+import com.yugiohreview.api.dto.YugiohResponce;
 import com.yugiohreview.api.models.YuGiOh;
 import java.util.ArrayList;
 
@@ -25,8 +26,11 @@ public class YugiohController {
     }
 
     @GetMapping("yugioh")
-    public ResponseEntity<List<YuGiOh>> getYugiohs(){
-        List<YuGiOh> yugiohs = new ArrayList<>();
+    public ResponseEntity<YugiohResponce> getYugiohs(
+            @RequestParam(value = "pageNo", defaultValue = "0", required = false) int pageNo,
+            @RequestParam(value = "pageSize", defaultValue = "10", required = false) int pageSize
+    ){
+        /*List<YuGiOh> yugiohs = new ArrayList<>();
 
         // Later should be removed
         yugiohs.add(new YuGiOh(1,"Blue-Eyes White Dragon","Light"));
@@ -35,13 +39,15 @@ public class YugiohController {
         yugiohs.add(new YuGiOh(4,"Glow-Up Bulb","Earth"));
         yugiohs.add(new YuGiOh(5,"Toadally Awesome","Water"));
 
-        return ResponseEntity.ok(yugiohs);
+        return ResponseEntity.ok(yugiohs);*/
 
+        return new ResponseEntity<>(yugiohService.getAllYugioh(pageNo, pageSize), HttpStatus.OK);
     }
 
     @GetMapping("yugioh/{id}")
-    public YuGiOh yugiohDetail(@PathVariable int id){
-        return new YuGiOh(id,"Dark Magician","Dark");
+    public /*YuGiOh*/ ResponseEntity<YugiohDto> yugiohDetail(@PathVariable int id) {
+        //return new YuGiOh(id,"Dark Magician","Dark");
+        return ResponseEntity.ok(yugiohService.getYugiohById(id));
     }
 
     @PostMapping("yugioh/create")
@@ -56,17 +62,23 @@ public class YugiohController {
     }
 
     @PutMapping("yugioh/{id}/update")
-    public ResponseEntity<YuGiOh> updateYuGiOh(@RequestBody YuGiOh yugioh, @PathVariable("id") int yugiohId){
-        System.out.println(yugioh.getName());
+    public ResponseEntity</*YuGiOh*/ YugiohDto> updateYuGiOh(@RequestBody /*YuGiOh yugioh*/ YugiohDto yugiohDto, @PathVariable("id") int yugiohId){
+        /*System.out.println(yugioh.getName());
         System.out.println(yugioh.getType());
 
-        return ResponseEntity.ok(yugioh);
+        return ResponseEntity.ok(yugioh);*/
+
+        YugiohDto response = yugiohService.updateYugioh(yugiohDto, yugiohId);
+        return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @DeleteMapping("yugioh/{id}/delete")
     public ResponseEntity<String> deleteYuGiOh(@PathVariable("id") int yugiohId){
-        System.out.println(yugiohId);
+        /*System.out.println(yugiohId);
 
-        return ResponseEntity.ok("YuGiOh card deleted successfully.");
+        return ResponseEntity.ok("YuGiOh card deleted successfully.");*/
+
+        yugiohService.deleteYugiohId(yugiohId);
+        return new ResponseEntity<>("YuGiOh card deleted!", HttpStatus.OK);
     }
 }

@@ -12,12 +12,13 @@ import java.util.Date;
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(YugiohNotFoundException.class)
-    public ResponseEntity<ErrorObject> handleYugiohNotFoundException(YugiohNotFoundException ex, WebRequest request){
+    public ResponseEntity<ErrorObject> handleYugiohNotFoundException (YugiohNotFoundException ex, WebRequest request) {
         ErrorObject errorObject = new ErrorObject();
+
         errorObject.setStatusCode(HttpStatus.NOT_FOUND.value());
         errorObject.setMessage(ex.getMessage());
         errorObject.setTimestamp(new Date());
 
-        return new ResponseEntity<ErrorObject>(errorObject,HttpStatus.NOT_FOUND);
+        return new ResponseEntity<ErrorObject>(errorObject, HttpStatus.NOT_FOUND);
     }
 }
