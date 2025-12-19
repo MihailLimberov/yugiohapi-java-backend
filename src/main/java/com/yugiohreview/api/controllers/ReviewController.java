@@ -28,4 +28,10 @@ public class ReviewController {
     public List<ReviewDto> getReviewsByYugiohId(@PathVariable(value = "yugiohId") int yugiohId){
         return reviewService.getReviewsByYugiohId(yugiohId);
     }
+
+    @GetMapping("/yugioh/{yugiohId}/reviews/{id}")
+    public ResponseEntity<ReviewDto> getReviewById(@PathVariable(value = "yugiohId") int yugiohId, @PathVariable(value = "id") int reviewId){
+        ReviewDto reviewDto = reviewService.getReviewById(yugiohId,reviewId);
+        return new ResponseEntity<>(reviewDto,HttpStatus.OK);
+    }
 }
