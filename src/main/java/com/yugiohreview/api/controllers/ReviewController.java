@@ -42,4 +42,10 @@ public class ReviewController {
         ReviewDto updatedReview = reviewService.updateReview(yugiohId, reviewId, reviewDto);
         return new ResponseEntity<>(updatedReview,HttpStatus.OK);
     }
+
+    @DeleteMapping("/yugioh/{yugiohId}/reviews/{id}")
+    public ResponseEntity<String> deleteReview(@PathVariable(value = "yugiohId") int yugiohId, @PathVariable(value = "id") int reviewId){
+        reviewService.deleteReview(yugiohId,reviewId);
+        return new ResponseEntity<>("Review Deleted Successfully",HttpStatus.OK);
+    }
 }

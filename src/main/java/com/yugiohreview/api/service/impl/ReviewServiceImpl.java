@@ -78,6 +78,19 @@ public class ReviewServiceImpl implements ReviewService {
         return mapToDto(updateReview);
     }
 
+    @Override
+    public void deleteReview(int yugiohId, int reviewId) {
+        YuGiOh yugioh = yugiohRepository.findById(yugiohId).orElseThrow(() -> new YugiohNotFoundException("Yugioh card with associated review not found"));
+
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new ReviewNotFoundException("Review with associated yugioh card not found"));
+
+        if (review.getYugioh().getId() != yugioh.getId()) {
+            throw new ReviewNotFoundException("This review does not belong to a yugioh card");
+        }
+
+        reviewRepository.delete(review);
+    }
+
 
     private ReviewDto mapToDto(Review review) {
         ReviewDto reviewDto = new ReviewDto();
