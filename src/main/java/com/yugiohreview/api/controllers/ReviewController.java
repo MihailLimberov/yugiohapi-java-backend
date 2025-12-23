@@ -1,6 +1,7 @@
 package com.yugiohreview.api.controllers;
 
 import com.yugiohreview.api.dto.ReviewDto;
+import com.yugiohreview.api.models.Review;
 import com.yugiohreview.api.service.ReviewService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,5 +34,12 @@ public class ReviewController {
     public ResponseEntity<ReviewDto> getReviewById(@PathVariable(value = "yugiohId") int yugiohId, @PathVariable(value = "id") int reviewId){
         ReviewDto reviewDto = reviewService.getReviewById(yugiohId,reviewId);
         return new ResponseEntity<>(reviewDto,HttpStatus.OK);
+    }
+
+    @PutMapping("/yugioh/{yugiohId}/reviews/{id}")
+    public ResponseEntity<ReviewDto> updateReview(@PathVariable(value = "yugiohId") int yugiohId, @PathVariable(value = "id") int reviewId,
+                                                  @RequestBody ReviewDto reviewDto){
+        ReviewDto updatedReview = reviewService.updateReview(yugiohId, reviewId, reviewDto);
+        return new ResponseEntity<>(updatedReview,HttpStatus.OK);
     }
 }

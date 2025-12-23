@@ -9,4 +9,5 @@ public interface ReviewService {
     List<ReviewDto> getReviewsByYugiohId(int id);
 
     ReviewDto getReviewById(int reviewId, int yugiohId);
+    ReviewDto updateReview(int yugiohId, int reviewId, ReviewDto reviewDto);
 }

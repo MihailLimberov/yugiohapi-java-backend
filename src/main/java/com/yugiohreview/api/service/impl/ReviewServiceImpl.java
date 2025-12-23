@@ -16,21 +16,21 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-public class ReviewServiceImpl implements ReviewService{
+public class ReviewServiceImpl implements ReviewService {
     private ReviewRepository reviewRepository;
     private YugiohRepository yugiohRepository;
 
     @Autowired
-    public ReviewServiceImpl(ReviewRepository reviewRepository,YugiohRepository yugiohRepository){
+    public ReviewServiceImpl(ReviewRepository reviewRepository, YugiohRepository yugiohRepository) {
         this.reviewRepository = reviewRepository;
         this.yugiohRepository = yugiohRepository;
     }
 
     @Override
-    public ReviewDto createReview(int yugiohId,ReviewDto reviewDto){
+    public ReviewDto createReview(int yugiohId, ReviewDto reviewDto) {
         Review review = mapToEntity(reviewDto);
 
-        YuGiOh yugioh = yugiohRepository.findById(yugiohId).orElseThrow(()-> new YugiohNotFoundException("Yugioh card with associated review not found"));
+        YuGiOh yugioh = yugiohRepository.findById(yugiohId).orElseThrow(() -> new YugiohNotFoundException("Yugioh card with associated review not found"));
 
         review.setYugioh(yugioh);
 
@@ -40,7 +40,7 @@ public class ReviewServiceImpl implements ReviewService{
     }
 
     @Override
-    public List<ReviewDto> getReviewsByYugiohId(int id){
+    public List<ReviewDto> getReviewsByYugiohId(int id) {
         List<Review> reviews = reviewRepository.findByYugiohId(id);
 
         return reviews.stream().map(review -> mapToDto(review)).collect(Collectors.toList());
@@ -48,19 +48,38 @@ public class ReviewServiceImpl implements ReviewService{
 
     @Override
     public ReviewDto getReviewById(int reviewId, int yugiohId) {
-        YuGiOh yugioh = yugiohRepository.findById(yugiohId).orElseThrow(()->new YugiohNotFoundException("Yugioh card with associated review not found"));
+        YuGiOh yugioh = yugiohRepository.findById(yugiohId).orElseThrow(() -> new YugiohNotFoundException("Yugioh card with associated review not found"));
 
-        Review review = reviewRepository.findById(reviewId).orElseThrow(()->new ReviewNotFoundException("Review with associated yugioh card not found"));
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new ReviewNotFoundException("Review with associated yugioh card not found"));
 
-        if (review.getYugioh().getId() != yugioh.getId()){
+        if (review.getYugioh().getId() != yugioh.getId()) {
             throw new ReviewNotFoundException("This review does not belong to a yugioh card");
         }
 
         return mapToDto(review);
     }
 
+    @Override
+    public ReviewDto updateReview(int yugiohId, int reviewId, ReviewDto reviewDto) {
+        YuGiOh yugioh = yugiohRepository.findById(yugiohId).orElseThrow(() -> new YugiohNotFoundException("Yugioh card with associated review not found"));
 
-    private ReviewDto mapToDto(Review review){
+        Review review = reviewRepository.findById(reviewId).orElseThrow(() -> new ReviewNotFoundException("Review with associated yugioh card not found"));
+
+        if (review.getYugioh().getId() != yugioh.getId()) {
+            throw new ReviewNotFoundException("This review does not belong to a yugioh card");
+        }
+
+        review.setTitle(reviewDto.getTitle());
+        review.setContent(reviewDto.getContent());
+        review.setStars(reviewDto.getStars());
+
+        Review updateReview = reviewRepository.save(review);
+
+        return mapToDto(updateReview);
+    }
+
+
+    private ReviewDto mapToDto(Review review) {
         ReviewDto reviewDto = new ReviewDto();
         reviewDto.setId(review.getId());
         reviewDto.setTitle(review.getTitle());
@@ -69,7 +88,7 @@ public class ReviewServiceImpl implements ReviewService{
         return reviewDto;
     }
 
-    private Review mapToEntity(ReviewDto reviewDto){
+    private Review mapToEntity(ReviewDto reviewDto) {
         Review review = new Review();
         review.setId(reviewDto.getId());
         review.setTitle(reviewDto.getTitle());
